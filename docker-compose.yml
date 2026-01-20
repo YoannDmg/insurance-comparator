@@ -1,0 +1,40 @@
+services:
+  # MongoDB database
+  mongodb:
+    image: mongo:7
+    container_name: insurance-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./data:/seed-data:ro
+    environment:
+      MONGO_INITDB_DATABASE: insurance_comparator
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NestJS backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: insurance-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/insurance_comparator
+      - PORT=3000
+      - FRONTEND_URL=http://localhost:3001
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - ./data:/app/data:ro
+
+volumes:
+  mongodb_data:

@@ -1,4 +1,4 @@
-.PHONY: help install install-backend install-scripts backend-dev backend-build backend-test backend-lint parse-list extract-all parse-all clean clean-data clean-all
+.PHONY: help install install-backend install-scripts backend-dev backend-build backend-test backend-lint parse-list extract-all parse-all clean clean-data clean-all up down logs seed mongo-shell
 
 VENV = scripts/.venv
 PYTHON = $(VENV)/bin/python
@@ -7,13 +7,22 @@ PYTHON = $(VENV)/bin/python
 help:
 	@echo "Usage: make <target>"
 	@echo ""
+	@echo "Docker:"
+	@echo "  up                 Start MongoDB + Backend containers"
+	@echo "  down               Stop containers"
+	@echo "  logs               Show backend logs"
+	@echo ""
+	@echo "Database:"
+	@echo "  seed               Import JSON data into MongoDB"
+	@echo "  mongo-shell        Open MongoDB shell"
+	@echo ""
 	@echo "Setup:"
 	@echo "  install            Install all dependencies (backend + scripts)"
 	@echo "  install-backend    Install backend dependencies"
 	@echo "  install-scripts    Install Python venv + dependencies"
 	@echo ""
 	@echo "Backend:"
-	@echo "  backend-dev        Start backend in dev mode"
+	@echo "  backend-dev        Start backend in dev mode (without Docker)"
 	@echo "  backend-build      Build backend for production"
 	@echo "  backend-test       Run backend tests"
 	@echo "  backend-lint       Run linter"
@@ -29,6 +38,37 @@ help:
 	@echo "  clean              Remove build artifacts (dist, venv, cache)"
 	@echo "  clean-data         Remove generated data (extracted, parsed)"
 	@echo "  clean-all          Remove everything"
+
+# ============== Docker ==============
+
+MONGODB_URI = mongodb://localhost:27017/insurance_comparator
+
+up:
+	docker-compose up -d
+
+down:
+	docker-compose down
+
+logs:
+	docker-compose logs -f backend
+
+# ============== Database ==============
+
+seed:
+	@echo "Seeding database..."
+	@for f in data/*/parsed.json; do \
+		echo "Importing $$f..."; \
+		docker-compose exec -T mongodb mongoimport \
+			--uri="mongodb://localhost:27017/insurance_comparator" \
+			--collection=insurers \
+			--file=/seed-data/$$(basename $$(dirname $$f))/parsed.json \
+			--mode=upsert \
+			--upsertFields=name; \
+	done
+	@echo "Seed complete!"
+
+mongo-shell:
+	docker-compose exec mongodb mongosh insurance_comparator
 
 # ============== Setup ==============
 
