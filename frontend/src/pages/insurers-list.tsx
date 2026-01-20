@@ -2,23 +2,36 @@ import { useEffect, useState } from "react";
 import { getInsurers, type InsurerListItem } from "@/lib/api";
 import { InsurerCard } from "@/components/insurer-card";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useComparison } from "@/context/comparison-context";
+import type { PageHeaderData } from "@/layouts/app-layout";
 
 interface InsurersListPageProps {
   onSelectInsurer: (name: string) => void;
+  onCompare: () => void;
+  setPageHeader: (header: PageHeaderData) => void;
 }
 
-export function InsurersListPage({ onSelectInsurer }: InsurersListPageProps) {
+export function InsurersListPage({ onSelectInsurer, onCompare, setPageHeader }: InsurersListPageProps) {
   const [insurers, setInsurers] = useState<InsurerListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const { insurers: selectedInsurers } = useComparison();
 
   useEffect(() => {
     getInsurers()
-      .then(setInsurers)
+      .then((data) => {
+        setInsurers(data);
+        setPageHeader({
+          title: "Comparateur de mutuelles",
+          subtitle: `Comparez les offres de ${data.length} assureurs`,
+        });
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [setPageHeader]);
 
   const filteredInsurers = insurers.filter(
     (insurer) =>
@@ -44,19 +57,20 @@ export function InsurersListPage({ onSelectInsurer }: InsurersListPageProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold">Comparateur de mutuelles</h1>
-        <p className="text-muted-foreground">
-          Comparez les offres de {insurers.length} assureurs
-        </p>
+      <div className="flex flex-wrap items-center gap-4">
+        <Input
+          placeholder="Rechercher un assureur..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="max-w-sm"
+        />
+        {selectedInsurers.length > 0 && (
+          <Button onClick={onCompare} className="gap-2">
+            Comparer
+            <Badge variant="secondary" className="ml-1">{selectedInsurers.length}</Badge>
+          </Button>
+        )}
       </div>
-
-      <Input
-        placeholder="Rechercher un assureur..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="max-w-sm"
-      />
 
       {filteredInsurers.length === 0 ? (
         <div className="text-muted-foreground py-8 text-center">
