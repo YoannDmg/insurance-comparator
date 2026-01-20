@@ -1,4 +1,4 @@
-.PHONY: help db backend-dev frontend-dev up down logs build test lint install clean seed mongo-shell parse-list extract-all parse-all
+.PHONY: help start db backend-dev frontend-dev up down logs build test lint install clean seed mongo-shell parse-list extract-all parse-all
 
 VENV = scripts/.venv
 PYTHON = $(VENV)/bin/python
@@ -10,10 +10,11 @@ PYTHON = $(VENV)/bin/python
 help:
 	@echo "Insurance Comparator - Available Commands"
 	@echo ""
-	@echo "DEVELOPMENT (run in separate terminals)"
-	@echo "  db               Start MongoDB (Docker)"
-	@echo "  backend-dev      Start backend (needs db running)"
-	@echo "  frontend-dev     Start frontend"
+	@echo "DEVELOPMENT"
+	@echo "  start            Start all services (Docker) with info"
+	@echo "  db               Start MongoDB only"
+	@echo "  backend-dev      Start backend in watch mode"
+	@echo "  frontend-dev     Start frontend in watch mode"
 	@echo ""
 	@echo "DOCKER (production)"
 	@echo "  up               Start all containers"
@@ -45,6 +46,28 @@ help:
 # =============================================================================
 # DEVELOPMENT
 # =============================================================================
+
+start:
+	@echo ""
+	@echo "╔══════════════════════════════════════════════════════════════════╗"
+	@echo "║                Insurance Comparator - Starting...                ║"
+	@echo "╚══════════════════════════════════════════════════════════════════╝"
+	@echo ""
+	@docker-compose up -d
+	@echo ""
+	@echo "┌──────────────────────────────────────────────────────────────────┐"
+	@echo "│  Services                                                        │"
+	@echo "├──────────────────────────────────────────────────────────────────┤"
+	@echo "│  Frontend     http://localhost:5173                              │"
+	@echo "│  Backend      http://localhost:3000                              │"
+	@echo "│  MongoDB      mongodb://localhost:27017                          │"
+	@echo "├──────────────────────────────────────────────────────────────────┤"
+	@echo "│  API Docs     http://localhost:3000/insurers                     │"
+	@echo "└──────────────────────────────────────────────────────────────────┘"
+	@echo ""
+	@echo "Logs: make logs"
+	@echo "Stop: make down"
+	@echo ""
 
 db:
 	docker-compose up -d mongodb

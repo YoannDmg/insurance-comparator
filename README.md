@@ -10,6 +10,13 @@
 
 Plateforme de comparaison de mutuelles santé avec parsing intelligent de garanties via Claude AI.
 
+## Quick Start
+
+```bash
+git clone https://github.com/YoannDmg/insurance-comparator.git && cd insurance-comparator
+make start
+```
+
 ## Table des matières
 
 - [Architecture](#architecture)
