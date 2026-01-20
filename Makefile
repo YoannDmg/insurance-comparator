@@ -1,4 +1,4 @@
-.PHONY: help install install-backend install-scripts backend-dev backend-build backend-test backend-lint parse-list extract-all parse-all clean clean-data clean-all up down logs seed mongo-shell
+.PHONY: help install install-backend install-frontend install-scripts backend-dev backend-build backend-test backend-lint frontend-dev frontend-build frontend-lint parse-list extract-all parse-all clean clean-data clean-all up down logs seed mongo-shell
 
 VENV = scripts/.venv
 PYTHON = $(VENV)/bin/python
@@ -26,6 +26,11 @@ help:
 	@echo "  backend-build      Build backend for production"
 	@echo "  backend-test       Run backend tests"
 	@echo "  backend-lint       Run linter"
+	@echo ""
+	@echo "Frontend:"
+	@echo "  frontend-dev       Start frontend in dev mode"
+	@echo "  frontend-build     Build frontend for production"
+	@echo "  frontend-lint      Run frontend linter"
 	@echo ""
 	@echo "Parsing:"
 	@echo "  parse-list         List available insurers"
@@ -72,10 +77,13 @@ mongo-shell:
 
 # ============== Setup ==============
 
-install: install-backend install-scripts
+install: install-backend install-frontend install-scripts
 
 install-backend:
 	cd backend && npm install
+
+install-frontend:
+	cd frontend && npm install
 
 $(VENV)/bin/activate:
 	python3 -m venv $(VENV)
@@ -96,6 +104,17 @@ backend-test:
 
 backend-lint:
 	cd backend && npm run lint
+
+# ============== Frontend ==============
+
+frontend-dev:
+	cd frontend && npm run dev
+
+frontend-build:
+	cd frontend && npm run build
+
+frontend-lint:
+	cd frontend && npm run lint
 
 # ============== Parsing ==============
 
