@@ -1,6 +1,20 @@
-# Frontend - Comparateur de Mutuelles
+# Insurance Comparator Frontend
+
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)](https://vite.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
 Application web de comparaison de mutuelles santé.
+
+## Quick Start
+
+```bash
+npm install
+npm run dev
+```
+
+L'application est disponible sur `http://localhost:5173`
 
 ## Stack technique
 
@@ -50,19 +64,12 @@ src/
 
 ## Scripts
 
-```bash
-# Développement (port 5173)
-npm run dev
-
-# Build production
-npm run build
-
-# Preview du build
-npm run preview
-
-# Linting
-npm run lint
-```
+| Commande | Description |
+|----------|-------------|
+| `npm run dev` | Développement (port 5173) |
+| `npm run build` | Build production |
+| `npm run preview` | Preview du build |
+| `npm run lint` | ESLint |
 
 ## Configuration API
 
@@ -82,42 +89,18 @@ proxy: {
 - `fetch('/api/insurers')` → `GET http://localhost:3000/insurers`
 - `fetch('/api/insurers/april')` → `GET http://localhost:3000/insurers/april`
 
-## Pages
+## Fonctionnalités
 
-### Liste des assureurs (`/`)
-- Affiche tous les assureurs disponibles
-- Recherche par nom/marque
-- Sélection multiple pour comparaison
+| Page | Description |
+|------|-------------|
+| **Liste** | Recherche et sélection d'assureurs pour comparaison |
+| **Détail** | Formules et garanties par catégorie |
+| **Comparaison** | Tableau côte à côte avec filtres par catégorie |
 
-### Détail assureur
-- Affiche les formules d'un assureur
-- Visualisation des garanties par catégorie
+**Catégories :** Hospitalisation, Soins courants, Optique, Dentaire, Audiologie
 
-### Comparaison
-- Tableau comparatif côte à côte
-- Sélecteur de formule par assureur
-- Filtre par catégorie de garantie
-
-## Catégories de garanties
-
-| Clé | Label |
-|-----|-------|
-| `hospitalization` | Hospitalisation |
-| `general_care` | Soins courants |
-| `optical` | Optique |
-| `dental` | Dentaire |
-| `hearing_aids` | Audiologie |
-
-## Ajout de composants UI
-
-Utiliser la CLI shadcn pour ajouter des composants :
+## Ajouter un composant UI
 
 ```bash
-npx shadcn@latest add button
-npx shadcn@latest add card
-npx shadcn@latest add input
+npx shadcn@latest add [component]
 ```
-
-## Variables d'environnement
-
-Aucune variable d'environnement requise côté frontend. La configuration API est gérée par le proxy Vite.
