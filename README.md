@@ -126,6 +126,20 @@ insurance-comparator/
 | **MongoDB** | Schéma souple pour prototyper vite (voir limites en "Améliorations futures") |
 | **Claude Sonnet 4** | Capable de comprendre des tableaux de garanties complexes |
 | **Python + pdfplumber** | Librairies PDF matures, script séparé de l'app |
+| **Docker Compose + Makefile** | Démarrage simple (`make start`), commandes unifiées pour dev et prod |
+
+---
+
+## Pourquoi l'IA pour le parsing ?
+
+Les tableaux de garanties des mutuelles sont **complexes et hétérogènes** :
+- Chaque assureur a son propre format de présentation
+- Les libellés varient ("Médecin généraliste", "Praticien OPTAM", "Consultation MG"...)
+- Les structures de tableaux sont différentes (colonnes, lignes, sous-catégories)
+- Les unités de remboursement changent (%, €, €/jour, "Frais réels"...)
+
+Une approche classique (regex, parsing structuré) aurait demandé un développement spécifique par assureur. **Claude comprend le contexte** et normalise automatiquement les données vers un schéma commun.
+
 
 ---
 
