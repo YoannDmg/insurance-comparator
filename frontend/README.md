@@ -80,7 +80,7 @@ proxy: {
 
 **Exemples d'appels :**
 - `fetch('/api/insurers')` → `GET http://localhost:3000/insurers`
-- `fetch('/api/insurers/axa')` → `GET http://localhost:3000/insurers/axa`
+- `fetch('/api/insurers/april')` → `GET http://localhost:3000/insurers/april`
 
 ## Pages
 
