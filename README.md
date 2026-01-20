@@ -166,6 +166,13 @@ Le modèle MongoDB actuel est souple mais limite le contrôle sur les données. 
 - Permettre des comparaisons plus fines et des classements fiables grâce à des données mieux structurées
 - Un schéma strict permet aussi de mieux guider l'IA sur les données exactes à extraire
 
+### Types partagés & API
+Actuellement les types sont dupliqués entre le backend et le frontend. Une migration vers **GraphQL** permettrait :
+- **Schéma unique** qui génère les types TypeScript des deux côtés
+- **Moins d'endpoints** : une seule requête pour récupérer exactement les données nécessaires
+- **Moins de trafic** : le client demande uniquement les champs dont il a besoin
+- **Évolutivité** : plus le modèle de données grossit, plus GraphQL devient pertinent vs REST
+
 ### Parsing
 Le parsing actuel capture ~35-40% des données. Principales données manquantes :
 - **100% Santé** (Classe A optique, Classe I audiologie)
