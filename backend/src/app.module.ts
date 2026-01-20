@@ -9,6 +9,7 @@ import { InsurersModule } from './insurers/insurers.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: ['.env', '../.env'],
     }),
 
     MongooseModule.forRootAsync({
