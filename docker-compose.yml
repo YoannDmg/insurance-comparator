@@ -40,6 +40,8 @@ services:
     container_name: insurance-frontend
     ports:
       - "5173:80"
+    depends_on:
+      - backend
 
 volumes:
   mongodb_data:
