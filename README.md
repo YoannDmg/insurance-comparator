@@ -210,26 +210,6 @@ insurance-comparator/
 
 ---
 
-## Pipeline de données
-
-### Flux de traitement
-
-```
-PDF Assureur
-     │
-     ▼ pdfplumber (extract)
-     │
-Texte brut (.txt)
-     │
-     ▼ Claude API (parse)
-     │
-JSON structuré (.json)
-     │
-     ▼ mongoimport (seed)
-     │
-MongoDB Collection
-```
-
 ## Licence
 
 MIT
